@@ -39,7 +39,7 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
                    new MoonShineUserRoleResource()
                ),
 
-            ]),
+            ])->canSee(fn() => auth()->user()->moonshine_user_role_id == 1),
             MenuItem::make(
                 'Ученики',
                 new MoodleClientResource()

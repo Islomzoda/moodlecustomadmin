@@ -48,7 +48,7 @@ class SellIndexPage extends IndexPage
     {
         return [
             ...parent::topLayer(),
-             ActionButton::make('Импорт', '/api/importMoodleUsers')->canSee(fn() => auth()->user()->moonshine_role_user_id == 0)->method('importUsers')->customAttributes(['class' => 'mb-4']),
+             ActionButton::make('Импорт', '/api/importMoodleUsers')->canSee(fn() => auth()->user()->moonshine_user_role_id == 1)->method('importUsers')->customAttributes(['class' => 'mb-4']),
         ];
     }
 
