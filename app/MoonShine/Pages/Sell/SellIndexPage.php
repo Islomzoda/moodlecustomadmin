@@ -25,6 +25,7 @@ class SellIndexPage extends IndexPage
             Block::make([
                 ID::make()->sortable(),
                 Text::make('Имя', 'first_name')->nullable(),
+                Text::make('Логин', 'telegram_id')->nullable(),
                 Text::make('Фамилия', 'last_name')->nullable(),
                 Text::make('Имя Пользователя', 'user_name')->link(fn($sell) => $sell != '/' ? 'https://t.me/'. $sell : '')->nullable(),
                 Text::make('Тариф', 'tariff'),
