@@ -40,7 +40,9 @@ def login(message):
 def start(message):
     bot.reply_to(message, 'Ассалому алейкум барои логин ва пароли худро гирифтан тугмаи /login пахш кунед!')
 
-
+@bot.message_handler()
+def any_massages(message):
+    bot.reply_to(message, 'Бубахшед барои хали масала ба @menej_tj мурочиат кунед')
 while True:
     try:
          bot.polling()
