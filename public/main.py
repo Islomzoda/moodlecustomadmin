@@ -1,10 +1,11 @@
 import telebot
 import requests
 import json
+import time
 
-TOKEN = ""
-CHAT_IDS = ["-1001925452270", "-1002144677415", "-1002056611872", "-1002131730381", "-1002134641485", "-1002070555735"]  # ID ваших групп
-API_URL = "https://moodle.alaboom.org/api/moodle/create"  # URL вашего API
+TOKEN = "6406496260:AAFWjxqKkyyN5N2Hilxbil-O7yXkdBdqUIQ"
+CHAT_IDS = ["-1001925452270", "-1002144677415", "-1002056611872", "-1002131730381", "-1002134641485", "-1002070555735", "-1001995332874", "-1002072859818"]  # ID ваших групп
+API_URL = "https://smc.jonee.ru/api/moodle/create"  # URL вашего API
 
 bot = telebot.TeleBot(TOKEN)
 
@@ -39,5 +40,10 @@ def login(message):
 def start(message):
     bot.reply_to(message, 'Ассалому алейкум барои логин ва пароли худро гирифтан тугмаи /login пахш кунед!')
 
-bot.delete_webhook()
-bot.polling()
+
+while True:
+    try:
+         bot.polling()
+    except Exception as e:
+        time.sleep(3)
+        print(e)

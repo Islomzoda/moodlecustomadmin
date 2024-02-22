@@ -1,0 +1,19 @@
+### Send request with dynamic variables in request's body
+POST http://localhost/api/remove_user
+Content-Type: application/json
+
+
+{
+    "telegram_id": 1978833347
+}
+
+
+###
+
+POST http://localhost/api/add_user
+Content-Type: application/json
+
+{
+    "telegram_id": 1978833347,
+    "chat_id": "-1001995332874"
+}

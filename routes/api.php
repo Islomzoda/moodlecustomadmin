@@ -1,5 +1,6 @@
 <?php
 
+use App\Services\Telegram\Telegram;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,3 +20,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('moodle/create', [\App\Services\Moodle\Moodle::class, 'create_user']);
+Route::post('importMoodleUsers', [\App\Services\Moodle\Moodle::class, 'importMoodleUsers']);
+Route::post('/remove_user', [Telegram::class, 'removeUser']);
+Route::post('/add_user', [Telegram::class, 'addUser']);
+Route::get('/check/{id}', [Telegram::class, 'check']);
+

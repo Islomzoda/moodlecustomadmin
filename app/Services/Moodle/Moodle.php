@@ -3,6 +3,7 @@
 namespace App\Services\Moodle;
 
 use App\Models\MoodleClient;
+use App\Models\Sell;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use \GuzzleHttp\Psr7\Request as Req;
@@ -114,4 +115,99 @@ class Moodle
             ]
         );
     }
+
+    public function importMoodleUsers()
+    {
+        $clients = MoodleClient::all();
+        $sells = [];
+        foreach ($clients as $client){
+            $sells[] = [
+                'telegram_id' => $client['telegram_id'],
+                'moodle_id' => $client['moodle_id'],
+                'first_name' => $client['firs_name'],
+                'last_name' => $client['last_name'],
+                'user_name' => $client['user_name'],
+                'tariff' => $client['tariff'],
+            ];
+        }
+        Sell::upsert($sells, ['telegram_id'], [       'telegram_id',
+            'moodle_id',
+            'first_name',
+            'last_name',
+            'user_name',
+            'tariff',]);
+    }
+
+    public function deactivate_user($telegram_id) {
+        try {
+            // Retrieve the Moodle user based on the Telegram ID
+            $moodleUser = MoodleClient::where('telegram_id', $telegram_id)->first();
+            if (!empty($moodleUser)) {
+                $client = new Client();
+                $headers = [
+                    'Content-Type' => 'application/x-www-form-urlencoded',
+                ];
+                $options = [
+                    'form_params' => [
+                        'wstoken' => config('services.moodle.token'),
+                        'moodlewsrestformat' => 'json',
+                        'wsfunction' => 'core_user_update_users',
+                        'users[0][id]' => $moodleUser->moodle_id,
+                        'users[0][suspended]' => 1, // Suspend the user
+                    ],
+                ];
+                $request = new Req('POST', 'https://kurs.alaboom.org/webservice/rest/server.php', $headers);
+                $response = $client->sendAsync($request, $options)->wait();
+                $responseData = json_decode($response->getBody(), true);
+
+                // Optionally log the response or perform additional actions as needed
+                Log::info('User suspended', ['response' => $responseData]);
+
+                return true; // Return true on success
+            } else {
+                Log::warning('Moodle user not found for Telegram ID: ' . $telegram_id);
+                return false; // Return false if user not found
+            }
+        } catch (\Exception $e) {
+            Log::error('Error suspending Moodle user: ' . $e->getMessage());
+            return false; // Return false on exception
+        }
+    }
+
+    public function reactivate_user($telegram_id) {
+        try {
+            // Retrieve the Moodle user based on the Telegram ID
+            $moodleUser = MoodleClient::where('telegram_id', $telegram_id)->first();
+            if (!empty($moodleUser)) {
+                $client = new Client();
+                $headers = [
+                    'Content-Type' => 'application/x-www-form-urlencoded',
+                ];
+                $options = [
+                    'form_params' => [
+                        'wstoken' => config('services.moodle.token'),
+                        'moodlewsrestformat' => 'json',
+                        'wsfunction' => 'core_user_update_users',
+                        'users[0][id]' => $moodleUser->moodle_id,
+                        'users[0][suspended]' => 0, // Reactivate the user
+                    ],
+                ];
+                $request = new Req('POST', 'https://kurs.alaboom.org/webservice/rest/server.php', $headers);
+                $response = $client->sendAsync($request, $options)->wait();
+                $responseData = json_decode($response->getBody(), true);
+
+                // Optionally log the response or perform additional actions as needed
+                Log::info('User reactivated', ['response' => $responseData]);
+
+                return true; // Return true on success
+            } else {
+                Log::warning('Moodle user not found for Telegram ID: ' . $telegram_id);
+                return false; // Return false if user not found
+            }
+        } catch (\Exception $e) {
+            Log::error('Error reactivating Moodle user: ' . $e->getMessage());
+            return false; // Return false on exception
+        }
+    }
+
 }

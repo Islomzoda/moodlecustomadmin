@@ -7,6 +7,7 @@ namespace App\MoonShine\Resources;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\MoodleClient;
 
+use MoonShine\ActionButtons\ActionButton;
 use MoonShine\Fields\Number;
 use MoonShine\Fields\Text;
 use MoonShine\Resources\ModelResource;
@@ -29,13 +30,11 @@ class MoodleClientResource extends ModelResource
                 Text::make('Имя', 'first_name'),
                 Text::make('Фамилия', 'last_name'),
                 Text::make('Имя Пользователя', 'user_name'),
-                Text::make('E - mail', 'email'),
-                Text::make('Имя Пользователя', 'password'),
+                Text::make('Пароль', 'password'),
                 Text::make('Тариф', 'tariff'),
             ]),
         ];
     }
-
     public function rules(Model $item): array
     {
         return [];
