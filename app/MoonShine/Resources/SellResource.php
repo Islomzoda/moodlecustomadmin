@@ -33,6 +33,10 @@ class SellResource extends ModelResource
         ];
     }
 
+    public function search(): array
+    {
+        return ['price', 'first_name', 'last_name', 'user_name', 'tariff', 'comment'];
+    }
     public function rules(Model $item): array
     {
         return [];
