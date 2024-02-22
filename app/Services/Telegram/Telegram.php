@@ -35,6 +35,12 @@ class Telegram
                         ],
                     ]);
                     if ($chatId != '-1002112634327' && $chatId != '-1002070555735'){
+                        $client->request('POST', $this->telegramApiUrl . 'sendMessage', [
+                            'form_params' => [
+                                'chat_id' => $telegramId, // ID пользователя для отправки сообщения
+                                'text' => "Ассалому алейкум шумо мувафакатан аз курс хорич карда шудед барои востановит кардан ба менеджер мурочиат кунед!",
+                            ],
+                        ]);
                         $removedChats = $chatId;
                     }
 
@@ -58,7 +64,15 @@ class Telegram
         $client = new Client();
 
         try {
+
             // Создаем одноразовую ссылку для приглашения в группу
+            $client->request('POST', $this->telegramApiUrl . 'unbanChatMember', [
+                'form_params' => [
+                    'chat_id' => $chatId,
+                    'user_id' => $telegramId, // Сделаем ссылку одноразовой
+                ],
+            ]);
+              // Создаем одноразовую ссылку для приглашения в группу
             $response = $client->request('POST', $this->telegramApiUrl . 'createChatInviteLink', [
                 'form_params' => [
                     'chat_id' => $chatId,
@@ -87,24 +101,19 @@ class Telegram
             switch ($chatId){
                 case "-1001925452270":
                     $this->addUserToGroup($telegram_id, $chatId, 'Шумо доступ ба курсро востановит кардед ин ссылкаи гурухи шумо');
-                    sleep(10);
                     $this->addUserToGroup($telegram_id, '-1002112634327', 'ин гурухи общий поток');
                 case "-1002144677415":
                     $this->addUserToGroup($telegram_id, $chatId, 'Шумо доступ ба курсро востановит кардед ин ссылкаи гурухи шумо');
-                    sleep(10);
                     $this->addUserToGroup($telegram_id, '-1002112634327', 'ин гурухи общий поток');
                 case "-1002056611872":
                     $this->addUserToGroup($telegram_id, $chatId, 'Шумо доступ ба курсро востановит кардед ин ссылкаи гурухи шумо');
-                    sleep(10);
                     $this->addUserToGroup($telegram_id, '-1002112634327', 'ин гурухи общий поток');
                 case "-1002131730381":
                 case "-1002134641485":
                 case "-1001995332874":
                 case "-1002072859818":
                     $this->addUserToGroup($telegram_id, $chatId, 'Шумо доступ ба курсро востановит кардед ин ссылкаи гурухи шумо');
-                    sleep(10);
                     $this->addUserToGroup($telegram_id, '-1002112634327', 'ин гурухи общий поток');
-                    sleep(10);
                     $this->addUserToGroup($telegram_id, '-1002070555735', 'ин гурухи общий наставничество');
             }
 
