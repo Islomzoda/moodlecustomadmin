@@ -24,10 +24,10 @@ class SellFormPage extends FormPage
             Block::make([
                 ID::make()->sortable(),
                 Number::make('telegram_id', 'telegram_id')->required()->disabled(),
-                Number::make('moodle_id', 'moodle_id')->canSee(fn() => auth()->user()->moonshine_user_role_id == 1),
+                Number::make('moodle_id', 'moodle_id')->canSee(fn() => auth()->user()->moonshine_user_role_id == 1)->disabled(),
                 Text::make('Группа', 'chat_id')->copy(),
-                Text::make('Имя', 'first_name')->copy()->disabled(),
-                Text::make('Фамилия', 'last_name')->copy()->disabled(),
+                Text::make('Имя', 'first_name')->copy(),
+                Text::make('Фамилия', 'last_name')->copy(),
                 Text::make('Имя Пользователя', 'user_name')->copy()->disabled(),
                 Text::make('Тариф', 'tariff')->required(),
                 Select::make('Статус', 'status')->options([
