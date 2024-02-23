@@ -12,6 +12,9 @@ use App\MoonShine\Pages\Sell\SellFormPage;
 use App\MoonShine\Pages\Sell\SellDetailPage;
 
 use Illuminate\Support\Facades\Log;
+use MoonShine\Fields\Relationships\BelongsTo;
+use MoonShine\Fields\Select;
+use MoonShine\Fields\Text;
 use MoonShine\Resources\ModelResource;
 
 class SellResource extends ModelResource
@@ -19,6 +22,7 @@ class SellResource extends ModelResource
     protected string $model = Sell::class;
 
     protected string $title = 'Продажи';
+    protected bool $saveFilterState = true;
 
     public function pages(): array
     {
@@ -36,6 +40,12 @@ class SellResource extends ModelResource
     public function search(): array
     {
         return ['price', 'first_name', 'last_name', 'user_name', 'tariff', 'comment', 'telegram_id'];
+    }
+    public function filters(): array
+    {
+        return [
+            Text::make('tariff')
+        ];
     }
     public function rules(Model $item): array
     {

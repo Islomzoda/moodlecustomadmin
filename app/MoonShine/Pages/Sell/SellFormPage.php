@@ -25,7 +25,7 @@ class SellFormPage extends FormPage
                 ID::make()->sortable(),
                 Number::make('telegram_id', 'telegram_id')->required()->disabled(),
                 Number::make('moodle_id', 'moodle_id')->canSee(fn() => auth()->user()->moonshine_user_role_id == 1),
-                Text::make('Группа', 'chat_id')->copy()->disabled(),
+                Text::make('Группа', 'chat_id')->copy(),
                 Text::make('Имя', 'first_name')->copy()->disabled(),
                 Text::make('Фамилия', 'last_name')->copy()->disabled(),
                 Text::make('Имя Пользователя', 'user_name')->copy()->disabled(),
