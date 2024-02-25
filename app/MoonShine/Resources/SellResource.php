@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\MoonShine\Resources;
 
 use App\Models\MoodleClient;
+use App\Services\Mpstats\Mpstats;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Sell;
 use App\MoonShine\Pages\Sell\SellIndexPage;
@@ -44,7 +45,13 @@ class SellResource extends ModelResource
     public function filters(): array
     {
         return [
-            Text::make('tariff')
+            Text::make('tariff'),
+            Select::make('Статус', 'status')->options([
+                'active' => 'активно',
+                'waiting' => 'ожидание',
+                'cancel' => 'отмена',
+                'waiting_cancel' => 'ожидание отмены',
+            ]),
         ];
     }
     public function rules(Model $item): array
@@ -52,6 +59,9 @@ class SellResource extends ModelResource
         return [];
     }
 
+    public function mpstats(){
+        (new Mpstats())->send();
+    }
     public function importUsers(){
         $clients = MoodleClient::all();
         $sells = [];
@@ -65,7 +75,6 @@ class SellResource extends ModelResource
                 'tariff' => $client['tariff'],
             ];
         }
-        Log::info($sells);
         Sell::upsert($sells, ['telegram_id'], [       'telegram_id',
             'moodle_id',
             'first_name',

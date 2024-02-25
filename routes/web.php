@@ -1,7 +1,7 @@
 <?php
 
+use App\Models\Mpstat;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +14,7 @@ use Illuminate\Support\Str;
 |
 */
 
-Route::get('/', function () {
-   dd();
+Route::get('/test', function () {
+    $mpstats = Mpstat::all();
+    (new \App\Services\Telegram\Telegram())->get_access($mpstats);
 });

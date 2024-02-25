@@ -23,5 +23,7 @@ Route::post('moodle/create', [\App\Services\Moodle\Moodle::class, 'create_user']
 Route::post('importMoodleUsers', [\App\Services\Moodle\Moodle::class, 'importMoodleUsers']);
 Route::post('/remove_user', [Telegram::class, 'removeUser']);
 Route::post('/add_user', [Telegram::class, 'addUser']);
+Route::post('mpstats/access', [\App\Services\Mpstats\Mpstats::class, 'access']);
 Route::get('/check/{id}', [Telegram::class, 'check']);
+
 

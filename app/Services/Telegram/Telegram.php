@@ -131,4 +131,21 @@ class Telegram
         }
      return back();
     }
+
+
+    public function mpstats($mpstats_info){
+
+        $mpstats_message = "Клиент: @menej_tj\nid {$mpstats_info['mpstats_id']}\n\n👤 Логин: <code>{$mpstats_info['login']}</code>\n🔑 Пароль: <code>{$mpstats_info['password']}</code>\n\n✨ API Key: <code>{$mpstats_info['api_key']}</code>\n\n🔗 Ссылка для входа: http://mphero.io/login\nСрок действия до: {$mpstats_info['expire_at']}";
+
+        $client = new Client();
+        $client->request('POST', $this->telegramApiUrl . 'sendMessage', [
+            'form_params' => [
+                'chat_id' => $mpstats_info['telegram_id'], // ID пользователя для отправки сообщения
+                'text' => $mpstats_message,
+                'parse_mode' => 'HTML', // Указываем, что текст содержит HTML-разметку
+            ],
+        ]);
+    }
+
+
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\MoonShine\Resources\MoodleClientResource;
+use App\MoonShine\Resources\MpstatsResource;
 use App\MoonShine\Resources\PaymentResource;
 use App\MoonShine\Resources\SellResource;
 use MoonShine\Providers\MoonShineApplicationServiceProvider;
@@ -51,6 +52,10 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
             MenuItem::make(
                 'Оплаты',
                 new PaymentResource()
+            ),
+            MenuItem::make(
+                'MPSTATS',
+                new MpstatsResource()
             ),
         ];
     }
